@@ -359,6 +359,14 @@ class NovaInlineRelationship extends Field
             ]]);
         }
 
+        if(!empty($item['readonlyCallback'])) {
+            $class->readonly($item['readonlyCallback']);
+        }
+
+        if(!empty($item['required'])) {
+            $class->rules(array_merge($class->rules, ['required']));
+        }
+
         $item['meta'] = $class->jsonSerialize();
         $item['meta']['singularLabel'] = $item['label'] ?? $attrib;
         $item['meta']['placeholder'] = 'Add ' . $item['meta']['singularLabel'];
@@ -496,6 +504,8 @@ class NovaInlineRelationship extends Field
                 'options' => $this->serializeOptions(data_get($value, 'optionsCallback'), false),
                 'rules' => $value->rules,
                 'attribute' => $value->attribute,
+                'readonlyCallback' => $value->readonlyCallback,
+                'required' => in_array('required', $value->rules),
             ];
         });
     }
