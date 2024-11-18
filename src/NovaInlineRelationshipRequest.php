@@ -54,7 +54,7 @@ class NovaInlineRelationshipRequest extends NovaRequest
         $request->setJson($from->json());
 
         try {
-            $session = $from->getSession();
+            $session = $from->session();
             $request->setLaravelSession($session);
         } catch (SessionNotFoundException $exception) {
             // do nothing
