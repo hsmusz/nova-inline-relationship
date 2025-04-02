@@ -35,9 +35,17 @@ class RelationshipRule implements Rule
      */
     public function __construct(array $rules, $messages = null, $attributes = null)
     {
-        $this->rules = $rules;
+        $this->rules = self::mapKeys($rules);
         $this->messages = $messages;
-        $this->attributes = $attributes;
+        $this->attributes = self::mapKeys($attributes);
+    }
+
+    private static function mapKeys(array $array): array
+    {
+        return array_combine(
+            array_map(fn ($key) => str_replace('.*.', '.*.values.', $key), array_keys($array)),
+            array_values($array)
+        );
     }
 
     /**
